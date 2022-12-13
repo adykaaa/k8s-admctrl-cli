@@ -7,7 +7,9 @@ import (
 	"k8s.io/client-go/tools/clientcmd"
 )
 
-func NewClientSet() (*kubernetes.Clientset, error) {
+//TODO: support more authentication methods
+
+func NewDefaultClientSet() (*kubernetes.Clientset, error) {
 	kubeconfig := clientcmd.NewNonInteractiveDeferredLoadingClientConfig(
 		clientcmd.NewDefaultClientConfigLoadingRules(),
 		&clientcmd.ConfigOverrides{},
@@ -20,7 +22,7 @@ func NewClientSet() (*kubernetes.Clientset, error) {
 
 	clientset, err := kubernetes.NewForConfig(config)
 	if err != nil {
-		return nil, fmt.Errorf("Error initiating HTTP client: %v", err)
+		return nil, fmt.Errorf("Error initiating HTTP client from client config: %v", err)
 	}
 
 	return clientset, nil
