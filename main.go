@@ -5,25 +5,19 @@ import (
 	"fmt"
 	"log"
 
+	k8s "github.com/adykaaa/k8s-admctrl-cli/k8s"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/client-go/kubernetes"
-	"k8s.io/client-go/tools/clientcmd"
 )
 
 func main() {
-	config, err := clientcmd.BuildConfigFromFlags("", "/home/adykaaa/.kube/config")
+	clientset, err := k8s.NewDefaultClientSet()
 	if err != nil {
-		log.Fatal(err)
-	}
-
-	clientset, err := kubernetes.NewForConfig(config)
-	if err != nil {
-		log.Fatal(err)
+		log.Fatalf("error during clientset initialization : %v", err)
 	}
 
 	webhookConfigurations, err := clientset.AdmissionregistrationV1beta1().ValidatingWebhookConfigurations().List(context.TODO(), metav1.ListOptions{})
 	if err != nil {
-		log.Fatal(err)
+		log.Printf("There are no validating webhooks in the cluster!")
 	}
 	for _, webhookConfiguration := range webhookConfigurations.Items {
 		fmt.Println(webhookConfiguration.Name)
