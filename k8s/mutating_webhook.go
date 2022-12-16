@@ -3,7 +3,7 @@ package k8s
 import (
 	"context"
 
-	"k8s.io/api/admissionregistration/v1beta1"
+	v1beta1 "k8s.io/api/admissionregistration/v1beta1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	//"k8s.io/client-go/kubernetes"
 	//"k8s.io/client-go/rest"
@@ -12,7 +12,7 @@ import (
 func deployMutatingWebhookConfiguration(namespace string) error {
 
 	// create the MutatingWebhookConfiguration object
-	mwc := &v1beta1.MutatingWebhookConfiguration{
+	mwc := &v1beta1.ValidatingWebhookConfiguration{
 		ObjectMeta: metav1.ObjectMeta{
 			Name: "example-mutating-webhook-configuration",
 		},
